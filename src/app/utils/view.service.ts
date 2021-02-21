@@ -7,11 +7,13 @@ export class ViewService {
 
   private isMobileView: boolean;
 
+  private DEFAULT_ISMOBILEVIEW = true;
+
   constructor() { }
 
   getIsMobileView(): boolean {
     if( this.isMobileView == null ) {
-      this.isMobileView = false;
+      this.isMobileView = this.DEFAULT_ISMOBILEVIEW;
     }
     return this.isMobileView;
   }

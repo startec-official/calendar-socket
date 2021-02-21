@@ -119,7 +119,7 @@ export class CalendarService {
 
   getSchedCol(date: Date): number {
     if (this.viewService.getIsMobileView()) {
-      if (this.getCurrentDate() == date)
+      if (this.resetTimeForDate(this.getCurrentDate()).getTime() == date.getTime())
         return 0;
       return -1;
     }
