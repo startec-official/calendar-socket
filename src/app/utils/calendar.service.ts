@@ -34,6 +34,10 @@ export class CalendarService {
     return this.timesOfDay;
   }
 
+  public getCurrentDate() : Date {
+    return new Date();
+  }
+
   public getWeekDates(currentDate?: Date) : Date[] {
     if (currentDate == null)
       currentDate = new Date(); // get current date
@@ -83,7 +87,7 @@ export class CalendarService {
 
   public getIs24HourFormat(): boolean {
     if (this.is24HourFormat == null) {
-      console.warn('The is24HourFormat fieild is null. Set to default value true...');
+      console.warn(`'The is24HourFormat fieild is null. Set to default value ${this.DEFAULT_IS24HOURFORMAT}...'`);
       return this.DEFAULT_IS24HOURFORMAT;
     }
     return this.is24HourFormat;
@@ -91,7 +95,7 @@ export class CalendarService {
 
   public getSubdivisionCount(): number {
     if (this.subdivisionCount == null) {
-      console.warn('The subdvisionCount field is null. Set to default value to 60 (minutes)...');
+      console.warn(`The subdvisionCount field is null. Set to default value to ${this.DEFAULT_SUBDIVISIONCOUNT} (minutes)...`);
       return this.DEFAULT_SUBDIVISIONCOUNT;
     }
     return this.subdivisionCount;

@@ -3,24 +3,28 @@
     <div class="col-sm-12">
       <h1>Calendar</h1>
       <!-- mobile view -->
-        <table class="table" *ngIf="2==2; else monthView">
-          <thead style="position: sticky;">
-            <tr>
-              <th scope="col" class="mobile-th"></th>
-              <th scope="col">
-                Sunday
-                <br>
-                Feb 21, 2021
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let timeOfDay of timesOfDay; index as col">
-              <th scope="row" class="mobile-th"><span class="float-time-text">{{timeOfDay}}</span></th>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
+      <table class="table" *ngIf="2<2; else monthView">
+        <thead>
+          <tr>
+            <th scope="col" class="mobile-th"></th>
+            <th scope="col">
+              {{ currentDate | date:'EEEE' }}
+              <br>
+              {{ currentDate | date:'mediumDate' }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let timeOfDay of timesOfDay; index as col" [id]="'rowNumber-'+col">
+            <th scope="row" class="mobile-th"><span class="float-time-text">{{timeOfDay}}</span></th>
+            <td (click)="onCellClick(0,col)">
+              <div class="text-success border border-success text-white float-div-container"
+                *ngIf="shouldDisplayCell[0][col]" [ngStyle]="{ 'height' : getDivHeight() }">
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
@@ -39,10 +43,10 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let timeOfDay of timesOfDay; index as col">
+      <tr *ngFor="let timeOfDay of timesOfDay; index as col" [id]="'rowNumber-'+col">
         <th scope="row">{{timeOfDay}}</th>
         <td *ngFor="let dayOfWeek of daysOfWeek; index as row" (click)="onCellClick(row,col)">
-          <div class="bg-success text-white float-button-container" *ngIf="shouldDisplayCell[row][col]"
+          <div class="bg-success text-white float-div-container" *ngIf="shouldDisplayCell[row][col]"
             [ngStyle]="{ 'height' : getDivHeight() }">Hello</div>
           <div></div>
         </td>
