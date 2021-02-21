@@ -14,7 +14,7 @@
             <tr *ngFor="let timeOfDay of timesOfDay; index as col">
               <th scope="row">{{timeOfDay}}</th>
               <td *ngFor="let dayOfWeek of daysOfWeek; index as row" (click)="onCellClick(row,col)">
-                  <div class="bg-success text-white p-3 float-button-container" *ngIf="shouldDisplayCell[row][col]">Hello</div>
+                  <div class="bg-success text-white float-button-container" *ngIf="shouldDisplayCell[row][col]" [ngStyle]="{ 'height' : getDivHeight() }">Hello</div>
                   <div></div>
               </td>
             </tr>
