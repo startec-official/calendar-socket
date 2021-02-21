@@ -1,28 +1,52 @@
 <div class="container">
-    <div class="row">
-      <div class="col-sm-12">
-        <h1>Calendar</h1>
-  
-        <table class="table table-bordered">
-          <thead>
+  <div class="row h-100">
+    <div class="col-sm-12">
+      <h1>Calendar</h1>
+      <!-- mobile view -->
+        <table class="table" *ngIf="2==2; else monthView">
+          <thead style="position: sticky;">
             <tr>
-              <th scope="col"></th>
-              <th scope="col" *ngFor="let dayOfWeek of daysOfWeek; index as i" [ngStyle]="{ 'width' : (100/daysOfWeek.length)+'%' }">
-                {{dayOfWeek}} <br>
-                {{ currentWeekDates[i] | date:'mediumDate' }}
+              <th scope="col" class="mobile-th"></th>
+              <th scope="col">
+                Sunday
+                <br>
+                Feb 21, 2021
               </th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let timeOfDay of timesOfDay; index as col">
-              <th scope="row">{{timeOfDay}}</th>
-              <td *ngFor="let dayOfWeek of daysOfWeek; index as row" (click)="onCellClick(row,col)">
-                  <div class="bg-success text-white float-button-container" *ngIf="shouldDisplayCell[row][col]" [ngStyle]="{ 'height' : getDivHeight() }">Hello</div>
-                  <div></div>
-              </td>
+              <th scope="row" class="mobile-th"><span class="float-time-text">{{timeOfDay}}</span></th>
+              <td></td>
             </tr>
           </tbody>
         </table>
-      </div>
     </div>
   </div>
+</div>
+
+<!-- web view -->
+<ng-template #monthView>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col" *ngFor="let dayOfWeek of daysOfWeek; index as i"
+          [ngStyle]="{ 'width' : (100/(daysOfWeek.length+1))+'%' }">
+          {{dayOfWeek}} <br>
+          {{ currentWeekDates[i] | date:'mediumDate' }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let timeOfDay of timesOfDay; index as col">
+        <th scope="row">{{timeOfDay}}</th>
+        <td *ngFor="let dayOfWeek of daysOfWeek; index as row" (click)="onCellClick(row,col)">
+          <div class="bg-success text-white float-button-container" *ngIf="shouldDisplayCell[row][col]"
+            [ngStyle]="{ 'height' : getDivHeight() }">Hello</div>
+          <div></div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</ng-template>

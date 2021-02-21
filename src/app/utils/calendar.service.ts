@@ -6,13 +6,13 @@ import { Injectable, OnInit, resolveForwardRef } from '@angular/core';
 export class CalendarService {
 
   private daysOfWeek: string[] = [
+    'Sunday',
     'Monday',
     'Tuesday',
     'Wednesday',
     'Thursday',
     'Friday',
     'Saturday',
-    'Sunday'
   ]
   private timesOfDay: string[];
 

@@ -3,6 +3,14 @@ td {
     height: 50px;
 }
 
+th {
+    position: relative !important;
+}
+
+.mobile-th {
+    width: 20%;
+}
+
 .float-button-container {
     display: flex;
     position: absolute;
@@ -11,4 +19,25 @@ td {
     width: 100%;
     border-radius: 0.2em;
     overflow: hidden;
+}
+
+.float-time-text {
+    font-size: 0.6em !important;
+    display: flex;
+    position: absolute;
+    right: 0.5em;
+    top: 0;
+    overflow: hidden;
+}
+
+tbody {
+    display:block;
+    height:500px;
+    overflow:auto;
+  }
+
+thead, tbody tr {
+    display:table;
+    width:100%;
+    table-layout:fixed;
   }
