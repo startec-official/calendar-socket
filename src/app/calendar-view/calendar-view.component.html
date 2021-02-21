@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1>Calendar</h1>
+  
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col" *ngFor="let dayOfWeek of daysOfWeek">{{dayOfWeek}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let timeOfDay of timesOfDay">
+              <th scope="row">{{timeOfDay}}</th>
+              <td *ngFor="let dayOfWeek of daysOfWeek"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
