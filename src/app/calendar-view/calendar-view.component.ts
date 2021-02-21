@@ -11,6 +11,7 @@ export class CalendarViewComponent implements OnInit {
   previousCell: { prevRow: number, prevCol: number };
   daysOfWeek: string[];
   timesOfDay: string[];
+  currentWeekDates: Date[];
   shouldDisplayCell: any;
 
   constructor(private calendarService: CalendarService) { }
@@ -19,6 +20,7 @@ export class CalendarViewComponent implements OnInit {
     this.daysOfWeek = this.calendarService.getDaysOfWeek();
     this.timesOfDay = this.calendarService.getTimesOfDay();
     this.shouldDisplayCell = this.calendarService.generateCellDisplayMatrix(this.timesOfDay.length, this.daysOfWeek.length);
+    this.currentWeekDates = this.calendarService.getWeekDates();
   }
 
   onCellClick(row: number, col: number) {

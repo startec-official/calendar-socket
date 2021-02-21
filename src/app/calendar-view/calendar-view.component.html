@@ -7,7 +7,10 @@
           <thead>
             <tr>
               <th scope="col"></th>
-              <th scope="col" *ngFor="let dayOfWeek of daysOfWeek" [ngStyle]="{ 'width' : (100/daysOfWeek.length)+'%' }">{{dayOfWeek}}</th>
+              <th scope="col" *ngFor="let dayOfWeek of daysOfWeek; index as i" [ngStyle]="{ 'width' : (100/daysOfWeek.length)+'%' }">
+                {{dayOfWeek}} <br>
+                {{ currentWeekDates[i] | date:'mediumDate' }}
+              </th>
             </tr>
           </thead>
           <tbody>
