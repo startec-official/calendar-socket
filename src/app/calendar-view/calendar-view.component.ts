@@ -1,6 +1,8 @@
-import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, Component, OnInit } from '@angular/core';
-import { off } from 'process';
+import { DatePipe } from '@angular/common';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { CalendarService } from '../utils/calendar.service';
+import { SocketService } from '../utils/socket.service';
+import { ViewService } from '../utils/view.service';
 
 @Component({
   selector: 'app-calendar-view',
@@ -15,34 +17,39 @@ export class CalendarViewComponent implements OnInit, AfterViewInit {
   currentWeekDates: Date[];
   currentDate: Date;
   shouldDisplayCell: any;
+  isMobileView: boolean;
 
-  constructor(private calendarService: CalendarService) { }
+  constructor(private calendarService: CalendarService,
+    private socketService: SocketService,
+    private datePipe : DatePipe,
+    private viewService :ViewService) { }
 
   ngOnInit(): void {
+    this.isMobileView = this.viewService.getIsMobileView();
     this.daysOfWeek = this.calendarService.getDaysOfWeek();
     this.timesOfDay = this.calendarService.getTimesOfDay();
     this.currentDate = this.calendarService.getCurrentDate();
     this.currentWeekDates = this.calendarService.getWeekDates();
 
-    if (this.isMobileView())
+    if (this.viewService.getIsMobileView())
       this.shouldDisplayCell = this.calendarService.generateCellDisplayMatrix(this.timesOfDay.length, 1);
     else
       this.shouldDisplayCell = this.calendarService.generateCellDisplayMatrix(this.timesOfDay.length, this.daysOfWeek.length);
   }
 
   ngAfterViewInit(): void {
-    var elmnt = document.getElementById(`rowNumber-${this.getCurrentTimeScroll()}`);
+    var elmnt = document.getElementById(`rowNumber-${this.getCurrentTimeRow()}`);
     elmnt.scrollIntoView();
   }
 
   onCellClick(row: number, col: number) {
     this.shouldDisplayCell[row][col] = true;
+    this.socketService.sendSchedMessage('abcd' , (this.timesOfDay[row] + ',' + this.datePipe.transform(this.currentWeekDates[col],'yyyy-MM-dd')));
     if (this.previousCell != null) {
-      if (this.previousCell != null && (row != this.previousCell.prevRow || col != this.previousCell.prevCol))
+      if (this.previousCell != null && (row != this.previousCell.prevRow || col != this.previousCell.prevCol)) 
         this.shouldDisplayCell[this.previousCell.prevRow][this.previousCell.prevCol] = false;
     }
     this.previousCell = { prevRow: row, prevCol: col };
-    // TODO : disable setting previous when on the same cell
   }
 
   getDivHeight(timeDuration?: number): string {
@@ -54,16 +61,12 @@ export class CalendarViewComponent implements OnInit, AfterViewInit {
     return divHeight;
   }
 
-  getCurrentTimeScroll(offset?: number): number {
+  getCurrentTimeRow(offset?: number): number {
     if (offset == null)
       offset = 0;
 
-    const maxRowNumber = 60 / this.calendarService.getSubdivisionCount() * 24;
-    const rowNumber = Math.round(maxRowNumber / 24 * (this.currentDate.getHours() + (this.currentDate.getMinutes() / 60)));
+    const maxRowNumber = this.calendarService.getMaxrowNumber();
+    const rowNumber = this.calendarService.getSchedRow( this.currentDate.getHours(), this.currentDate.getMinutes() );
     return (rowNumber + offset > maxRowNumber || rowNumber + offset < 0 ? rowNumber : rowNumber + offset);
-  }
-
-  isMobileView(): boolean {
-    return true;
   }
 }

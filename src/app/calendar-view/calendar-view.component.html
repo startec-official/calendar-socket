@@ -3,7 +3,7 @@
     <div class="col-sm-12">
       <h1>Calendar</h1>
       <!-- mobile view -->
-      <table class="table" *ngIf="2<2; else monthView">
+      <table class="table" *ngIf="isMobileView; else monthView">
         <thead>
           <tr>
             <th scope="col" class="mobile-th"></th>
@@ -43,9 +43,9 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let timeOfDay of timesOfDay; index as col" [id]="'rowNumber-'+col">
+      <tr *ngFor="let timeOfDay of timesOfDay; index as row" [id]="'rowNumber-'+row">
         <th scope="row">{{timeOfDay}}</th>
-        <td *ngFor="let dayOfWeek of daysOfWeek; index as row" (click)="onCellClick(row,col)">
+        <td *ngFor="let dayOfWeek of daysOfWeek; index as col" (click)="onCellClick(row,col)">
           <div class="bg-success text-white float-div-container" *ngIf="shouldDisplayCell[row][col]"
             [ngStyle]="{ 'height' : getDivHeight() }">Hello</div>
           <div></div>
