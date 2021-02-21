@@ -9,12 +9,18 @@ import { CalendarService } from '../utils/calendar.service';
 export class CalendarViewComponent implements OnInit {
   daysOfWeek : string[];
   timesOfDay : string[];
+  shouldDisplayCell : any;
 
   constructor( private calendarService : CalendarService ) { }
 
   ngOnInit(): void {
     this.daysOfWeek = this.calendarService.getDaysOfWeek();
     this.timesOfDay = this.calendarService.getTimesOfDay();
+    this.shouldDisplayCell = this.calendarService.generateCellDisplayMatrix(this.timesOfDay.length,this.daysOfWeek.length);
+  }
+
+  onCellClick(row:number,col:number) {
+    this.shouldDisplayCell[row][col] = true;
   }
 
 }

@@ -1,0 +1,15 @@
+td {
+    position: relative !important;
+    height: 50px;
+}
+
+.float-button-container {
+    display: flex;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100px;
+    border-radius: 0.2em;
+    margin: 1px;
+    overflow: hidden;
+  }

@@ -3,17 +3,20 @@
       <div class="col-sm-12">
         <h1>Calendar</h1>
   
-        <table class="table">
+        <table class="table table-bordered">
           <thead>
             <tr>
               <th scope="col"></th>
-              <th scope="col" *ngFor="let dayOfWeek of daysOfWeek">{{dayOfWeek}}</th>
+              <th scope="col" *ngFor="let dayOfWeek of daysOfWeek" [ngStyle]="{ 'width' : (100/daysOfWeek.length)+'%' }">{{dayOfWeek}}</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let timeOfDay of timesOfDay">
+            <tr *ngFor="let timeOfDay of timesOfDay; index as col">
               <th scope="row">{{timeOfDay}}</th>
-              <td *ngFor="let dayOfWeek of daysOfWeek"></td>
+              <td *ngFor="let dayOfWeek of daysOfWeek; index as row" (click)="onCellClick(row,col)">
+                  <div class="bg-success text-white p-3 float-button-container" *ngIf="shouldDisplayCell[row][col]">Hello</div>
+                  <div></div>
+              </td>
             </tr>
           </tbody>
         </table>
