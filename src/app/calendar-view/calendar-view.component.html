@@ -15,11 +15,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let timeOfDay of timesOfDay; index as col" [id]="'rowNumber-'+col">
+          <tr *ngFor="let timeOfDay of timesOfDay; index as row" [id]="'rowNumber-'+row">
             <th scope="row" class="mobile-th"><span class="float-time-text">{{timeOfDay}}</span></th>
-            <td (click)="onCellClick(0,col)">
+            <td (click)="onCellClick(row,0)">
               <div class="text-success border border-success text-white float-div-container"
-                *ngIf="shouldDisplayCell[0][col]" [ngStyle]="{ 'height' : getDivHeight() }">
+                *ngIf="shouldDisplayCell[row][0]" [ngStyle]="{ 'height' : getDivHeight() }">
               </div>
             </td>
           </tr>

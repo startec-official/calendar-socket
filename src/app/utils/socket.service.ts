@@ -62,9 +62,17 @@ export class SocketService {
       currentUser = matchedUser[0];
     }
 
-    if( this.prevUpdateViewId == null )
+    if (this.prevUpdateViewId == null)
       this.prevUpdateViewId = currentUser.id;
 
+      // TODO: restrict clicking on the same block
+    // if (currentUser.id != this.prevUpdateViewId || currentUser.prevRow != currentUser.row || currentUser.prevCol != currentUser.prevRow) {
+    //   this.updateViewEventEmitter.emit(currentUser);
+    //   this.prevUpdateViewId = currentUser.id;
+    // }
+
     this.updateViewEventEmitter.emit(currentUser);
+    this.prevUpdateViewId = currentUser.id;
   }
+
 }
