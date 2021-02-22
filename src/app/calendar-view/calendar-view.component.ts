@@ -35,6 +35,13 @@ export class CalendarViewComponent implements OnInit, AfterViewInit {
       this.shouldDisplayCell = this.calendarService.generateCellDisplayMatrix(this.timesOfDay.length, 1);
     else
       this.shouldDisplayCell = this.calendarService.generateCellDisplayMatrix(this.timesOfDay.length, this.daysOfWeek.length);
+
+    this.socketService.updateViewEventEmitter.subscribe( updateViewData => {
+      // TODO: allow for multiple users occupying the same slot
+      // TODO: accomodate for removing one user from a slot occupied by mutliple users 
+
+      console.log(updateViewData);
+    });
   }
 
   ngAfterViewInit(): void {
