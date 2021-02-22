@@ -18,8 +18,9 @@
           <tr *ngFor="let timeOfDay of timesOfDay; index as row" [id]="'rowNumber-'+row">
             <th scope="row" class="mobile-th"><span class="float-time-text">{{timeOfDay}}</span></th>
             <td (click)="onCellClick(row,0)">
-              <div class="text-success border border-success text-white float-div-container"
+              <div class="bg-success text-white float-div-container"
                 *ngIf="shouldDisplayCell[row][0]" [ngStyle]="{ 'height' : getDivHeight() }">
+                hello
               </div>
             </td>
           </tr>

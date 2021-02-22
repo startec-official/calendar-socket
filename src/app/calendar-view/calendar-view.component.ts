@@ -21,8 +21,8 @@ export class CalendarViewComponent implements OnInit, AfterViewInit {
 
   constructor(private calendarService: CalendarService,
     private socketService: SocketService,
-    private datePipe : DatePipe,
-    private viewService :ViewService) { }
+    private datePipe: DatePipe,
+    private viewService: ViewService) { }
 
   ngOnInit(): void {
     this.isMobileView = this.viewService.getIsMobileView();
@@ -36,11 +36,8 @@ export class CalendarViewComponent implements OnInit, AfterViewInit {
     else
       this.shouldDisplayCell = this.calendarService.generateCellDisplayMatrix(this.timesOfDay.length, this.daysOfWeek.length);
 
-    this.socketService.updateViewEventEmitter.subscribe( updateViewData => {
-      // TODO: allow for multiple users occupying the same slot
-      // TODO: accomodate for removing one user from a slot occupied by mutliple users 
-
-      console.log(updateViewData);
+    this.socketService.updateViewEventEmitter.subscribe((updateViewData: { id: string, row: number, col: number, prevRow: number, prevCol: number }) => {
+      this.updateView(updateViewData);
     });
   }
 
@@ -50,13 +47,24 @@ export class CalendarViewComponent implements OnInit, AfterViewInit {
   }
 
   onCellClick(row: number, col: number) {
-    this.shouldDisplayCell[row][col] = true;
-    this.socketService.sendSchedMessage('abcd' , (this.timesOfDay[row] + ',' + this.datePipe.transform(this.currentWeekDates[col],'yyyy-MM-dd')));
-    if (this.previousCell != null) {
-      if (this.previousCell != null && (row != this.previousCell.prevRow || col != this.previousCell.prevCol)) 
-        this.shouldDisplayCell[this.previousCell.prevRow][this.previousCell.prevCol] = false;
+    // this.shouldDisplayCell[row][col] = true;
+    this.socketService.sendSchedMessage('abcd', (this.timesOfDay[row] + ',' + this.datePipe.transform(this.currentWeekDates[col], 'yyyy-MM-dd')));
+    // if (this.previousCell != null) {
+    //   if (this.previousCell != null && (row != this.previousCell.prevRow || col != this.previousCell.prevCol))
+    //     this.shouldDisplayCell[this.previousCell.prevRow][this.previousCell.prevCol] = false;
+    // }
+    // this.previousCell = { prevRow: row, prevCol: col };
+  }
+
+  updateView({ id, row, col, prevRow, prevCol }): void {
+    // TODO: allow for multiple users occupying the same slot
+    // TODO: accomodate for removing one user from a slot occupied by mutliple users 
+
+    if( row != -1 && col != -1 ) {
+      this.shouldDisplayCell[row][col] = true;
+      if( prevRow != null && prevCol != null )
+        this.shouldDisplayCell[prevRow][prevCol] = false;
     }
-    this.previousCell = { prevRow: row, prevCol: col };
   }
 
   getDivHeight(timeDuration?: number): string {
@@ -73,7 +81,7 @@ export class CalendarViewComponent implements OnInit, AfterViewInit {
       offset = 0;
 
     const maxRowNumber = this.calendarService.getMaxrowNumber();
-    const rowNumber = this.calendarService.getSchedRow( this.currentDate.getHours(), this.currentDate.getMinutes() );
+    const rowNumber = this.calendarService.getSchedRow(this.currentDate.getHours(), this.currentDate.getMinutes());
     return (rowNumber + offset > maxRowNumber || rowNumber + offset < 0 ? rowNumber : rowNumber + offset);
   }
 }

@@ -17,6 +17,7 @@ export class SocketService {
     prevCol: number
   }[] = []; // TODO: find more efficient way  to track user input
 
+  currentId: string;
   prevUpdateViewId: string;
 
   updateViewEventEmitter: EventEmitter<any> = new EventEmitter();
@@ -73,6 +74,11 @@ export class SocketService {
 
     this.updateViewEventEmitter.emit(currentUser);
     this.prevUpdateViewId = currentUser.id;
+  }
+
+  getSocketID() {
+    // TODO: make users register and retrieve ID from database
+    this.currentId = 'abcd';
   }
 
 }
